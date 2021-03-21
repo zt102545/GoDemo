@@ -1,0 +1,12 @@
+{
+  "app": {
+    "name": "zzt",
+    "mode": "debug",
+    "host": "localhost",
+    "port": "8090"
+  },
+  "database":
+  {
+    "url": "root:123456@tcp(localhost:3306)/test?charset=utf8"
+  }
+}
