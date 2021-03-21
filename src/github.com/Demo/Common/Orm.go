@@ -26,7 +26,6 @@ func OrmEngine(cfg *Config) (*Orm,error) {
 		return nil, err
 	}
 
-
 	orm := new(Orm)
 	orm.Engine = engine
 	DbEngine = orm

@@ -10,12 +10,12 @@ func main() {
 	//读取配置文件
 	cfg, err := Common.ParseConfig("./Config/app.json")
 	if err != nil {
-		// tool.Error(err.Error())
 		log.Printf("err:%+v", err)
 		return
 	}
-	_,err=Common.OrmEngine(cfg)
-	if err!=nil{
+	//创建连接数据库对象
+	_, err = Common.OrmEngine(cfg)
+	if err != nil {
 		log.Printf("err:%+v", err)
 		return
 	}
