@@ -9,6 +9,7 @@ import (
 type Config struct {
 	App appConfig `json:"app"`
 	DataBase DatabaseConfig `json:"database"`
+	Redis RedisConfig `json:"Redis"`
 }
 
 type appConfig struct {
@@ -20,6 +21,12 @@ type appConfig struct {
 
 type DatabaseConfig struct{
 	Url string `json:"url"`
+}
+
+type RedisConfig struct{
+	Addr string `json:"addr"`
+	DB int `json:"db"`
+	PassWord string `json:"password"`
 }
 
 var _cfg *Config = nil
