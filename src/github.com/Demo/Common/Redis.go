@@ -7,55 +7,58 @@ import (
 	"time"
 )
 
+var RedisClient *redis.Client
+
 // Redis cache implement
 type Redis struct {
-	client *redis.Client
+	Client *redis.Client
 }
 
 // Setup connection
-func (r *Redis) Connect(cfg *Config) {
-	r.client = redis.NewClient(&redis.Options{
-		Addr:         cfg.Redis.Addr,
-		Password:     cfg.Redis.PassWord,
-		DB:           cfg.Redis.DB,
+func RedisConnect(cfg *Config) error {
+	RedisClient = redis.NewClient(&redis.Options{
+		Addr:     cfg.Redis.Addr,
+		Password: cfg.Redis.PassWord,
+		DB:       cfg.Redis.DB,
 	})
-	_, err := r.client.Ping().Result()
+	_, err := RedisClient.Ping().Result()
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Could not connected to redis : %s", err.Error()))
 	}
+	return err
 }
 
 // Get from key
 func (r *Redis) Get(key string) (string, error) {
-	return r.client.Get(key).Result()
+	return r.Client.Get(key).Result()
 }
 
 // Set value with key and expire time
 func (r *Redis) Set(key string, val string, expire int) error {
-	return r.client.Set(key, val, time.Duration(expire)).Err()
+	return r.Client.Set(key, val, time.Duration(expire)*time.Second).Err()
 }
 
 // Del delete key in redis
 func (r *Redis) Del(key string) error {
-	return r.client.Del(key).Err()
+	return r.Client.Del(key).Err()
 }
 
 // HashGet from key
 func (r *Redis) HashGet(hk, key string) (string, error) {
-	return r.client.HGet(hk, key).Result()
+	return r.Client.HGet(hk, key).Result()
 }
 
 // HashDel delete key in specify redis's hashtable
 func (r *Redis) HashDel(hk, key string) error {
-	return r.client.HDel(hk, key).Err()
+	return r.Client.HDel(hk, key).Err()
 }
 
 // Increase
 func (r *Redis) Increase(key string) error {
-	return r.client.Incr(key).Err()
+	return r.Client.Incr(key).Err()
 }
 
 // Set ttl
 func (r *Redis) Expire(key string, dur time.Duration) error {
-	return r.client.Expire(key, dur).Err()
+	return r.Client.Expire(key, dur).Err()
 }
