@@ -30,4 +30,5 @@ func main() {
 	//注册路由
 	app := Routers.RegisterRouter()
 	app.Run(cfg.App.AppHost + ":" + cfg.App.AppPort)
+
 }
