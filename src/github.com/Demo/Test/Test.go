@@ -1,26 +1,43 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-type People interface {
-	Speak(string) string
+type ListNode struct{
+	val int
+	next *ListNode
 }
 
-type Stduent struct{}
 
-func (stu *Stduent) Speak(think string) (talk string) {
-	if think == "bitch" {
-		talk = "You are a good boy"
+func ReverseList(node *ListNode) *ListNode {
+	if node.next == nil {
+		return node
 	} else {
-		talk = "hi"
+		var newHead = ReverseList(node.next)
+		node.next.next = node
+		node.next = nil
+		return newHead
 	}
-	return
 }
 
 func main() {
-	var peo = Stduent{}
-	think := "bitch"
-	fmt.Println(peo.Speak(think))
+	head := new(ListNode)
+	head.val = 1
+	node := new(ListNode)
+	node.val = 2
+	head.next = node
+	node2 := new(ListNode)
+	node2.val = 3
+	node.next = node2
+
+	var newNode = ReverseList(head)
+
+	for {
+		if newNode.next != nil {
+			fmt.Print(newNode.val)
+			newNode = newNode.next
+		} else {
+			fmt.Print(newNode.val)
+			break
+		}
+	}
 }
